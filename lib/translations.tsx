@@ -25,8 +25,11 @@ export const TranslationsProvider = ({ children }: { children: ReactNode }) => {
     useEffect(() => {
         const fetchTranslations = async () => {
             try {
-                const response = await fetch('/api/translations');
-                const data = await response.json();
+                const appLanguagesResponse = await fetch('/api/translations?model=getAppLanguages');
+                const data = await appLanguagesResponse.json(); // ["en","he","ar"]
+
+                const translationsResponse = await fetch('/api/translations?model=getTranslations');
+                const translationsData = await translationsResponse.json();
 
                 const processedTranslations = (data.translationsRows as any[]).reduce((acc, row) => {
                     acc[row.key] = {
