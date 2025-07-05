@@ -27,6 +27,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
             return {
                 id: user.id.toString(), // Ensure id is string
+                username: user.username,
                 email: user.email
             };
         }
@@ -37,6 +38,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         // When the user logs in, add info to token
         if (user) {
             token.id = user.id;
+            token.username = user.username;
             token.email = user.email;
         }
         return token;
