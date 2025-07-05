@@ -4,7 +4,7 @@ import React, { createContext, useContext, useState, useEffect, ReactNode } from
 import { languageStorage } from './storage';
 
 interface Translations {
-    [key: string]: { [lang: string]: string };
+    [key: string]: string;
 }
 
 interface TranslationsContextType {
@@ -19,38 +19,60 @@ const TranslationsContext = createContext<TranslationsContextType | undefined>(u
 
 export const TranslationsProvider = ({ children }: { children: ReactNode }) => {
     const [translations, setTranslations] = useState<Translations>(languageStorage.getTranslations() || {});
-    const [appLanguages, setAppLanguages] = useState<string[]>([]);
-    const [language, setLanguageState] = useState<string>(languageStorage.getAppLanguage() || '');
+    const [appLanguages, setAppLanguages] = useState<string[]>(languageStorage.getAppLanguage() || []);
+    const [language, setLanguageState] = useState<string>(languageStorage.getViewLanguage() || 'en');
 
     useEffect(() => {
-        const fetchTranslations = async () => {
+        const initialize = async () => {
             try {
+                // 1. Fetch available languages
                 const appLanguagesResponse = await fetch('/api/translations?model=getAppLanguages');
-                const data = await appLanguagesResponse.json(); // ["en","he","ar"]
-                languageStorage.setAppLanguage(data.appLanguages);
+                const langData = await appLanguagesResponse.json();
+                const availableLangs = langData.appLanguages || [];
+                setAppLanguages(availableLangs);
+                languageStorage.setAppLanguage(availableLangs);
 
-                const translationsResponse = await fetch('/api/translations?model=getTranslations');
+                // 2. Determine current language
+                let currentLang = languageStorage.getViewLanguage();
+                if (!currentLang || !availableLangs.includes(currentLang)) {
+                    currentLang = availableLangs[0] || 'en';
+                    languageStorage.setViewLanguage(currentLang);
+                }
+                setLanguageState(currentLang);
+
+                // 3. Fetch translations for the current language
+                const translationsResponse = await fetch(`/api/translations?model=getTranslations&langCode=${currentLang}`);
                 const translationsData = await translationsResponse.json();
-                languageStorage.setTranslations(translationsData.translations);
+                setTranslations(translationsData.translations || {});
+                languageStorage.setTranslations(translationsData.translations || {});
 
-            }
-            catch (error) {
-                console.error('Failed to fetch translations:', error);
+            } catch (error) {
+                console.error('Failed to initialize translations:', error);
             }
         };
 
-        fetchTranslations();
+        initialize();
     }, []);
 
-    const setLanguage = (lang: string) => {
+    const setLanguage = async (lang: string) => {
         if (appLanguages.includes(lang)) {
-            setLanguageState(lang);
-            languageStorage.setAppLanguage(lang);
+            try {
+                const translationsResponse = await fetch(`/api/translations?model=getTranslations&langCode=${lang}`);
+                const translationsData = await translationsResponse.json();
+
+                setLanguageState(lang);
+                languageStorage.setViewLanguage(lang);
+
+                setTranslations(translationsData.translations || {});
+                languageStorage.setTranslations(translationsData.translations || {});
+            } catch (error) {
+                console.error(`Failed to fetch translations for ${lang}:`, error);
+            }
         }
     };
 
     const t = (key: string): string => {
-        return translations[key]?.[language] || key;
+        return translations[key] || key;
     };
 
     return (
