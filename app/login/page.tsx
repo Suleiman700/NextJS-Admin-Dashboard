@@ -40,7 +40,7 @@ export default function LoginPage() {
             });
 
             if (response?.error) {
-                setErrorMessage('Invalid email or password');
+                setErrorMessage(t('wrong_email_or_password'));
                 message.error('Invalid email or password');
             }
             else {
@@ -50,7 +50,7 @@ export default function LoginPage() {
         }
         catch (error) {
             console.error('Login error:', error);
-            setErrorMessage('An error occurred during login');
+            setErrorMessage(t('wrong_email_or_password'));
             message.error('An error occurred during login');
         } finally {
             setLoading(false);
@@ -62,15 +62,15 @@ export default function LoginPage() {
     };
 
     return (
-        <div className="min-h-screen flex justify-center items-start md:items-center p-8">
-            <Card className="w-full max-w-sm">
+        <div className="min-h-screen flex justify-center items-center md:items-center p-8">
+            <Card className="w-full max-w-sm shadow-lg">
                 <CardHeader>
-                    <CardTitle className="text-2xl">{t('login')}</CardTitle>
-                    <CardDescription>
-                        {t('login.description')}
-                    </CardDescription>
+                    <CardTitle className="text-2xl text-center">{t('sign_in')}</CardTitle>
+                    {/*<CardDescription>*/}
+                    {/*    {t('login.description')}*/}
+                    {/*</CardDescription>*/}
                 </CardHeader>
-                <CardContent>
+                <CardContent className="mt-4">
                     <Select
                         value={language}
                         onChange={(value) => setLanguage(value)}
@@ -107,43 +107,43 @@ export default function LoginPage() {
                         }}
                     >
                         <Form.Item
-                            label={t('login.email_label')}
+                            label={t('email')}
                             name="email"
                             rules={[
                                 {
                                     required: true,
-                                    message: t('login.email_required'),
+                                    message: t('field_is_required'),
                                 },
                                 {
                                     type: 'email',
-                                    message: t('login.email_invalid'),
+                                    message: t('field_is_invalid'),
                                 },
                             ]}
                         >
                             <Input
                                 size="large"
-                                placeholder={t('login.email_placeholder')}
+                                placeholder={t('email')}
                                 prefix={<UserOutlined />}
                             />
                         </Form.Item>
 
                         <Form.Item
-                            label={t('login.password_label')}
+                            label={t('password')}
                             name="password"
                             rules={[
                                 {
                                     required: true,
-                                    message: t('login.password_required'),
+                                    message: t('field_is_required'),
                                 },
                                 {
                                     min: 6,
-                                    message: t('login.password_min_length'),
+                                    message: t('field_is_required'),
                                 },
                             ]}
                         >
                             <Input.Password
                                 size="large"
-                                placeholder={t('login.password_placeholder')}
+                                placeholder={t('password')}
                                 prefix={<LockOutlined />}
                             />
                         </Form.Item>
@@ -155,7 +155,7 @@ export default function LoginPage() {
                                 size="large"
                                 className="w-full"
                             >
-                                {t('login.signin_button')}
+                                {t('sign_in')}
                             </AntButton>
                         </Form.Item>
                     </Form>

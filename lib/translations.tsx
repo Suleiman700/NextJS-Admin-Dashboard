@@ -11,6 +11,7 @@ interface TranslationsContextType {
     translations: Translations;
     appLanguages: string[];
     language: string;
+    direction: 'ltr' | 'rtl';
     setLanguage: (language: string) => void;
     t: (key: string) => string;
 }
@@ -21,6 +22,11 @@ export const TranslationsProvider = ({ children }: { children: ReactNode }) => {
     const [translations, setTranslations] = useState<Translations>(languageStorage.getTranslations() || {});
     const [appLanguages, setAppLanguages] = useState<string[]>(languageStorage.getAppLanguage() || []);
     const [language, setLanguageState] = useState<string>(languageStorage.getViewLanguage() || 'en');
+    const direction = (translations.dir === 'rtl' ? 'rtl' : 'ltr') as 'ltr' | 'rtl';
+
+    useEffect(() => {
+        document.documentElement.dir = direction;
+    }, [direction]);
 
     useEffect(() => {
         const initialize = async () => {
@@ -43,8 +49,9 @@ export const TranslationsProvider = ({ children }: { children: ReactNode }) => {
                 // 3. Fetch translations for the current language
                 const translationsResponse = await fetch(`/api/translations?model=getTranslations&langCode=${currentLang}`);
                 const translationsData = await translationsResponse.json();
-                setTranslations(translationsData.translations || {});
-                languageStorage.setTranslations(translationsData.translations || {});
+                const newTranslations = translationsData.translations || {};
+                setTranslations(newTranslations);
+                languageStorage.setTranslations(newTranslations);
 
             } catch (error) {
                 console.error('Failed to initialize translations:', error);
@@ -63,8 +70,9 @@ export const TranslationsProvider = ({ children }: { children: ReactNode }) => {
                 setLanguageState(lang);
                 languageStorage.setViewLanguage(lang);
 
-                setTranslations(translationsData.translations || {});
-                languageStorage.setTranslations(translationsData.translations || {});
+                const newTranslations = translationsData.translations || {};
+                setTranslations(newTranslations);
+                languageStorage.setTranslations(newTranslations);
             } catch (error) {
                 console.error(`Failed to fetch translations for ${lang}:`, error);
             }
@@ -76,7 +84,7 @@ export const TranslationsProvider = ({ children }: { children: ReactNode }) => {
     };
 
     return (
-        <TranslationsContext.Provider value={{ translations, appLanguages, language, setLanguage, t }}>
+        <TranslationsContext.Provider value={{ translations, appLanguages, language, direction, setLanguage, t }}>
             {children}
         </TranslationsContext.Provider>
     );
