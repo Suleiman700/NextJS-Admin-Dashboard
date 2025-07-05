@@ -19,13 +19,15 @@ export default function LoginPage() {
     const [loading, setLoading] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
 
+    const onValuesChange = () => {
+        setErrorMessage('');
+    }
+
     const onFinish = async (values) => {
         setLoading(true);
         setErrorMessage('');
 
         try {
-            console.log('Success:', values);
-
             // Option 1: Using next-auth/react (recommended)
             const response = await signIn("credentials", {
                 email: values.email,
@@ -33,8 +35,6 @@ export default function LoginPage() {
                 redirect: false,
                 callbackUrl: '/admin/dashboard'
             });
-
-            console.log(response);
 
             if (response?.error) {
                 setErrorMessage('Invalid email or password');
@@ -44,27 +44,8 @@ export default function LoginPage() {
                 router.replace('/admin/dashboard');
                 return;
             }
-
-            // Option 2: If you need to use your custom auth, make an API call instead
-            // const response = await fetch('/api/auth/signin', {
-            //     method: 'POST',
-            //     headers: {
-            //         'Content-Type': 'application/json',
-            //     },
-            //     body: JSON.stringify({
-            //         email: values.email,
-            //         password: values.password,
-            //     }),
-            // });
-            // const data = await response.json();
-            // if (response.ok) {
-            //     router.replace('/admin/dashboard');
-            // } else {
-            //     setErrorMessage(data.message || 'Invalid email or password');
-            //     message.error(data.message || 'Invalid email or password');
-            // }
-
-        } catch (error) {
+        }
+        catch (error) {
             console.error('Login error:', error);
             setErrorMessage('An error occurred during login');
             message.error('An error occurred during login');
@@ -98,10 +79,12 @@ export default function LoginPage() {
                     <Form
                         name="login"
                         onFinish={onFinish}
+                        onValuesChange={onValuesChange}
                         onFinishFailed={onFinishFailed}
                         autoComplete="off"
                         layout="vertical"
                         className="w-full"
+                        disabled={loading}
                         initialValues={{
                             email: 'admin@admin.com',
                             password: 'password1233'
