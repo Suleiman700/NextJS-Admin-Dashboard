@@ -3,6 +3,7 @@
 import { Button } from '@/components/ui/button';
 import {
     Card,
+    CardContent,
     CardDescription,
     CardFooter,
     CardHeader,
@@ -10,14 +11,16 @@ import {
 } from '@/components/ui/card';
 import { signIn, signOut } from 'next-auth/react';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
-import { Form, Input, Button as AntButton, message } from 'antd';
+import { Form, Input, Button as AntButton, message, Select } from 'antd';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import { useTranslations } from '@/lib/translations';
 
 export default function LoginPage() {
     const router = useRouter();
     const [loading, setLoading] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
+    const { t, setLanguage, language, appLanguages } = useTranslations();
 
     const onValuesChange = () => {
         setErrorMessage('');
@@ -62,16 +65,29 @@ export default function LoginPage() {
         <div className="min-h-screen flex justify-center items-start md:items-center p-8">
             <Card className="w-full max-w-sm">
                 <CardHeader>
-                    <CardTitle className="text-2xl">Login</CardTitle>
+                    <CardTitle className="text-2xl">{t('login')}</CardTitle>
                     <CardDescription>
-                        Sign in to your account using your email and password.
+                        {t('login.description')}
                     </CardDescription>
                 </CardHeader>
+                <CardContent>
+                    <Select
+                        value={language}
+                        onChange={(value) => setLanguage(value)}
+                        className="w-full mb-4"
+                    >
+                        {appLanguages.map((lang) => (
+                            <Select.Option key={lang} value={lang}>
+                                {lang.toUpperCase()}
+                            </Select.Option>
+                        ))}
+                    </Select>
+                </CardContent>
                 <CardFooter className="flex-col space-y-4">
                     {/* Display error message */}
                     {errorMessage && (
                         <div className="w-full text-red-500 text-sm text-center">
-                            {errorMessage}
+                            {t(errorMessage)}
                         </div>
                     )}
 
@@ -91,43 +107,43 @@ export default function LoginPage() {
                         }}
                     >
                         <Form.Item
-                            label="Email"
+                            label={t('login.email_label')}
                             name="email"
                             rules={[
                                 {
                                     required: true,
-                                    message: 'Please input your email!',
+                                    message: t('login.email_required'),
                                 },
                                 {
                                     type: 'email',
-                                    message: 'Please enter a valid email!',
+                                    message: t('login.email_invalid'),
                                 },
                             ]}
                         >
                             <Input
                                 size="large"
-                                placeholder="Enter your email"
+                                placeholder={t('login.email_placeholder')}
                                 prefix={<UserOutlined />}
                             />
                         </Form.Item>
 
                         <Form.Item
-                            label="Password"
+                            label={t('login.password_label')}
                             name="password"
                             rules={[
                                 {
                                     required: true,
-                                    message: 'Please input your password!',
+                                    message: t('login.password_required'),
                                 },
                                 {
                                     min: 6,
-                                    message: 'Password must be at least 6 characters!',
+                                    message: t('login.password_min_length'),
                                 },
                             ]}
                         >
                             <Input.Password
                                 size="large"
-                                placeholder="Enter your password"
+                                placeholder={t('login.password_placeholder')}
                                 prefix={<LockOutlined />}
                             />
                         </Form.Item>
@@ -139,7 +155,7 @@ export default function LoginPage() {
                                 size="large"
                                 className="w-full"
                             >
-                                Sign in
+                                {t('login.signin_button')}
                             </AntButton>
                         </Form.Item>
                     </Form>
