@@ -42,7 +42,6 @@ export async function User() {
           <DropdownMenuItem>
             <form
               action={async () => {
-                'use server';
                 await signOut();
               }}
             >
