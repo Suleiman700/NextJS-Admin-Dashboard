@@ -27,34 +27,14 @@ export const TranslationsProvider = ({ children }: { children: ReactNode }) => {
             try {
                 const appLanguagesResponse = await fetch('/api/translations?model=getAppLanguages');
                 const data = await appLanguagesResponse.json(); // ["en","he","ar"]
+                languageStorage.setAppLanguage(data.appLanguages);
 
                 const translationsResponse = await fetch('/api/translations?model=getTranslations');
                 const translationsData = await translationsResponse.json();
+                languageStorage.setTranslations(translationsData.translations);
 
-                const processedTranslations = (data.translationsRows as any[]).reduce((acc, row) => {
-                    acc[row.key] = {
-                        ...acc[row.key],
-                        [row.language]: row.value
-                    };
-                    return acc;
-                }, {});
-
-                setTranslations(processedTranslations);
-                languageStorage.setTranslations(processedTranslations);
-
-                const languages = data.appLanguages || [];
-                setAppLanguages(languages);
-
-                const storedLang = languageStorage.getAppLanguage();
-                if (storedLang && languages.includes(storedLang)) {
-                    setLanguageState(storedLang);
-                } else if (languages.length > 0) {
-                    const defaultLang = languages[0];
-                    setLanguageState(defaultLang);
-                    languageStorage.setAppLanguage(defaultLang);
-                }
-
-            } catch (error) {
+            }
+            catch (error) {
                 console.error('Failed to fetch translations:', error);
             }
         };

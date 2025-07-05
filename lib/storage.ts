@@ -18,27 +18,30 @@ class Storage {
 }
 
 class Storage_Language extends Storage {
-    private langKey = 'appLanguage';
-    private translationsKey = 'translations';
 
     constructor() {
         super('Languages');
     }
 
     public setAppLanguage(language: string): void {
-        this.set(this.langKey, language);
+        this.set('AppLanguages', language);
+    }
+    public getAppLanguage(): string | null {
+        return this.get('AppLanguages');
     }
 
-    public getAppLanguage(): string | null {
-        return this.get(this.langKey);
+    public setViewLanguage(value: string): void {
+        this.set('ViewLanguages', value);
+    }
+    public getViewLanguage(): string | null {
+        return this.get('ViewLanguages');
     }
 
     public setTranslations(translations: any): void {
-        this.set(this.translationsKey, translations);
+        this.set('Translations', translations);
     }
-
     public getTranslations(): any | null {
-        return this.get(this.translationsKey);
+        return this.get('Translations');
     }
 }
 
