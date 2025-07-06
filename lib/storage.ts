@@ -40,8 +40,12 @@ class Storage_Language extends Storage {
     public setTranslations(translations: any): void {
         this.set('Translations', translations);
     }
-    public getTranslations(): any | null {
-        return this.get('Translations');
+    public getTranslations(sentenceKey: string = ''): any | null {
+        const translations = this.get('Translations');
+        if (sentenceKey && translations.hasOwnProperty(sentenceKey)) {
+            return translations[sentenceKey] || sentenceKey;
+        }
+        return this.get('Translations') ?? [];
     }
 }
 
