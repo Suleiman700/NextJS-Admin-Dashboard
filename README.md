@@ -1,64 +1,158 @@
-<div align="center"><strong>Next.js 15 Admin Dashboard Template</strong></div>
-<div align="center">Built with the Next.js App Router</div>
+<div align="center"><strong>Next.js Admin Dashboard with Authentication, Multi-language Support, and MySQL Integration</strong></div>
+<div align="center">Built with the Next.js App Router and modern best practices</div>
 <br />
-<div align="center">
-<a href="https://next-admin-dash.vercel.app/">Demo</a>
-<span> · </span>
-<a href="https://vercel.com/templates/next.js/admin-dashboard-tailwind-postgres-react-nextjs">Clone & Deploy</a>
-<span>
-</div>
 
 ## Overview
 
-This is a starter template using the following stack:
+This is a comprehensive admin dashboard starter kit using the following stack:
 
-- Framework - [Next.js (App Router)](https://nextjs.org)
-- Language - [TypeScript](https://www.typescriptlang.org)
-- Auth - [Auth.js](https://authjs.dev)
-- Database - [Postgres](https://vercel.com/postgres)
-- Deployment - [Vercel](https://vercel.com/docs/concepts/next.js/overview)
-- Styling - [Tailwind CSS](https://tailwindcss.com)
-- Components - [Shadcn UI](https://ui.shadcn.com/)
-- Analytics - [Vercel Analytics](https://vercel.com/analytics)
-- Formatting - [Prettier](https://prettier.io)
+- **Framework** - [Next.js 13+ (App Router)](https://nextjs.org)
+- **Language** - [TypeScript](https://www.typescriptlang.org)
+- **Authentication** - [NextAuth.js](https://next-auth.js.org)
+- **Database** - [MySQL](https://www.mysql.com) with [Drizzle ORM](https://orm.drizzle.team)
+- **UI Components** - [Shadcn UI](https://ui.shadcn.com/)
+- **Styling** - [Tailwind CSS](https://tailwindcss.com)
+- **Analytics** - [Vercel Analytics](https://vercel.com/analytics)
+- **Internationalization** - Custom i18n implementation with RTL support
+- **Icons** - [Lucide React](https://lucide.dev)
 
-This template uses the new Next.js App Router. This includes support for enhanced layouts, colocation of components, tests, and styles, component-level data fetching, and more.
+## Key Features
+
+- **Multi-language Support**: Built-in internationalization with support for multiple languages
+- **RTL Support**: Full right-to-left language support for Arabic, Hebrew, and other RTL languages
+- **Responsive Design**: Mobile-first approach with responsive sidebar and navigation
+- **Authentication**: Secure authentication with NextAuth.js
+- **Database Integration**: MySQL database integration using Drizzle ORM
+- **Server Components**: Leverages Next.js 13+ server components for improved performance
+- **Modern UI**: Clean, modern UI with customizable themes
+- **Accessibility**: ARIA-compliant components for better accessibility
 
 ## Getting Started
 
-During the deployment, Vercel will prompt you to create a new Postgres database. This will add the necessary environment variables to your project.
+### Prerequisites
 
-Inside the Vercel Postgres dashboard, create a table based on the schema defined in this repository.
+- Node.js 16.8 or later
+- MySQL server
+- npm or yarn
 
-```
-CREATE TYPE status AS ENUM ('active', 'inactive', 'archived');
+### Environment Setup
 
-CREATE TABLE products (
-  id SERIAL PRIMARY KEY,
-  image_url TEXT NOT NULL,
-  name TEXT NOT NULL,
-  status status NOT NULL,
-  price NUMERIC(10, 2) NOT NULL,
-  stock INTEGER NOT NULL,
-  available_at TIMESTAMP NOT NULL
-);
-```
-
-Then, uncomment `app/api/seed.ts` and hit `http://localhost:3000/api/seed` to seed the database with products.
-
-Next, copy the `.env.example` file to `.env` and update the values. Follow the instructions in the `.env.example` file to set up your GitHub OAuth application.
-
+1. Clone the repository:
 ```bash
-npm i -g vercel
-vercel link
-vercel env pull
+git clone https://github.com/yourusername/nextjs-admin-dashboard.git
+cd nextjs-admin-dashboard
 ```
 
-Finally, run the following commands to start the development server:
+2. Install dependencies:
+```bash
+npm install
+# or
+yarn install
+```
+
+3. Set up the database:
+You can import the database from the provided SQL file: `_mysql.sql`
+
+
+4. Create a `.env` file with the following variables:
+```
+# Database
+DB_HOST=your_db_host
+DB_USER=your_db_user
+DB_PASSWORD=your_db_password
+DB_DATABASE=your_db_name
+
+# NextAuth
+NEXTAUTH_URL=http://localhost:3000
+NEXTAUTH_SECRET=your_nextauth_secret
+AUTH_SECRET= your_auth_secret
+```
+
+5. Run the development server:
+```bash
+npm run dev
+# or
+yarn dev
+```
+
+6. Open [http://localhost:3000](http://localhost:3000) in your browser to see the result.
+
+### Default Login Credentials
+
+Once the application is running, you can log in with the following default credentials:
+
+- **Email**: admin@admin.com
+- **Password**: password123
+
+> **Important**: For production environments, make sure to change these default credentials immediately after the first login.
+
+## Project Structure
 
 ```
-pnpm install
-pnpm dev
+├── app/                     # Next.js App Router
+│   ├── (dashboard)/         # Dashboard routes and components
+│   ├── api/                 # API routes
+│   ├── login/               # Authentication pages
+│   └── [...]/               # Other app routes
+├── components/              # Reusable UI components
+│   ├── layout/              # Layout components
+│   └── ui/                  # UI components
+├── lib/                     # Utility functions and shared code
+│   ├── db.ts                # Database connection
+│   └── translations.tsx     # Internationalization utilities
+├── public/                  # Static assets
+└── ...
 ```
 
-You should now be able to access the application at http://localhost:3000.
+## Internationalization
+
+The dashboard includes a built-in translation system with support for both LTR and RTL languages. To add a new language:
+
+1. Add the language to the `appLanguages` array in `lib/translations.tsx`
+2. Add translations for the language in the `translations` object
+3. Set the appropriate direction (`ltr` or `rtl`) for the language
+
+The UI will automatically adjust for RTL languages, including:
+- Sidebar position switching to the right side
+- Content padding adjusting accordingly
+- Text alignment and direction changes
+- Button and icon positioning
+
+## Authentication
+
+Authentication is handled via NextAuth.js. The login page includes:
+- Username/password authentication
+- Language selection
+- Remember me functionality
+- Secure session management
+
+## Database Integration
+
+The dashboard uses MySQL with Drizzle ORM for database operations. Server components directly access the database using the `server-only` package to ensure database operations are never exposed to the client.
+
+## Customization
+
+### Themes
+
+You can customize the theme by modifying the Tailwind configuration in `tailwind.config.js`.
+
+### Layout
+
+The dashboard layout is fully customizable. The main components are:
+- `layout.tsx` - The main layout wrapper
+- `sidebar.tsx` - The sidebar navigation
+- `mobile-nav.tsx` - Mobile navigation drawer
+- `DashboardContainer.tsx` - Content container with direction-aware padding
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## Acknowledgements
+
+- [Next.js](https://nextjs.org)
+- [Shadcn UI](https://ui.shadcn.com/)
+- [Tailwind CSS](https://tailwindcss.com)
+- [NextAuth.js](https://next-auth.js.org)
+- [Drizzle ORM](https://orm.drizzle.team)
+- [Lucide Icons](https://lucide.dev)
