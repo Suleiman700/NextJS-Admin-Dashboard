@@ -11,7 +11,7 @@ import { useTranslations } from '@/lib/translations';
 
 export function MobileNav() {
     const [openCategories, setOpenCategories] = useState<Record<string, boolean>>({});
-    const { direction } = useTranslations();
+    const { t, setLanguage, language, appLanguages, direction } = useTranslations();
 
     const toggleCategory = (category: string) => {
         setOpenCategories(prev => ({
@@ -39,7 +39,7 @@ export function MobileNav() {
                     {sidebarConfig.map((category, index) => (
                         <div key={index} className="mb-6">
                             <h3 className="mb-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                                {category.title}
+                                {t(category.title.toLowerCase())}
                             </h3>
                             <div className="space-y-1">
                                 {category.items.map((item, itemIndex) => (
@@ -52,7 +52,7 @@ export function MobileNav() {
                                                 >
                                                     <div className="flex items-center gap-3">
                                                         <item.icon className="h-5 w-5" />
-                                                        <span>{item.title}</span>
+                                                        <span>{t(item.title.toLowerCase())}</span>
                                                     </div>
                                                     {openCategories[`${category.title}-${item.title}`] ? (
                                                         <ChevronDown className="h-4 w-4" />
@@ -69,7 +69,7 @@ export function MobileNav() {
                                                                 className="flex items-center gap-3 rounded-md px-2 py-1.5 text-sm text-muted-foreground hover:text-foreground"
                                                             >
                                                                 <subItem.icon className="h-4 w-4" />
-                                                                <span>{subItem.title}</span>
+                                                                <span>{t(subItem.title.toLowerCase())}</span>
                                                             </Link>
                                                         ))}
                                                     </div>
@@ -81,7 +81,7 @@ export function MobileNav() {
                                                 className="flex items-center gap-3 rounded-md px-2 py-1.5 text-muted-foreground hover:text-foreground"
                                             >
                                                 <item.icon className="h-5 w-5" />
-                                                <span>{item.title}</span>
+                                                <span>{t(item.title.toLowerCase())}</span>
                                             </Link>
                                         )}
                                     </div>

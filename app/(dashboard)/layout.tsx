@@ -36,7 +36,7 @@ import { SearchInput } from './search';
 import { LanguageSelector } from './language-selector';
 import { Sidebar } from '@/components//layout/sidebar';
 // import { sidebarConfig } from './sidebar-config';
-import { MobileNav } from './mobile-nav';
+import { MobileNav } from '@/components/layout/mobile-nav';
 import DashboardContainer from '@/components/layout/DashboardContainer';
 
 export default function DashboardLayout({
