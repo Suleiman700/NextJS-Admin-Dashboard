@@ -6,7 +6,7 @@ import { PanelLeft, ChevronDown, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { VercelLogo } from '@/components/icons';
-import { sidebarConfig } from './sidebar-config';
+import { sidebarConfig } from '@/components/layout/sidebar-config';
 import { useTranslations } from '@/lib/translations';
 
 export function MobileNav() {

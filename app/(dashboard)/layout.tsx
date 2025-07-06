@@ -34,9 +34,10 @@ import Providers from './providers';
 import { NavItem } from './nav-item';
 import { SearchInput } from './search';
 import { LanguageSelector } from './language-selector';
-import { Sidebar } from './sidebar';
+import { Sidebar } from '@/components//layout/sidebar';
 // import { sidebarConfig } from './sidebar-config';
 import { MobileNav } from './mobile-nav';
+import DashboardContainer from '@/components/layout/DashboardContainer';
 
 export default function DashboardLayout({
                                             children
@@ -47,7 +48,7 @@ export default function DashboardLayout({
         <Providers>
             <main className="flex min-h-screen w-full flex-col bg-muted/40">
                 <Sidebar />
-                <div className="flex flex-col sm:gap-4 sm:py-4 sm:pl-64">
+                <DashboardContainer>
                     <header
                         className="sticky top-0 z-30 flex h-14 items-center gap-4 border-b bg-background px-4 sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-6">
                         <MobileNav />
@@ -59,7 +60,21 @@ export default function DashboardLayout({
                     <main className="grid flex-1 items-start gap-2 p-4 sm:px-6 sm:py-0 md:gap-4 bg-muted/40">
                         {children}
                     </main>
-                </div>
+                </DashboardContainer>
+
+                {/*<div className="flex flex-col sm:gap-4 sm:py-4 sm:pr-64">*/}
+                {/*    <header*/}
+                {/*        className="sticky top-0 z-30 flex h-14 items-center gap-4 border-b bg-background px-4 sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-6">*/}
+                {/*        <MobileNav />*/}
+                {/*        <DashboardBreadcrumb />*/}
+                {/*        <SearchInput />*/}
+                {/*        <LanguageSelector />*/}
+                {/*        <User />*/}
+                {/*    </header>*/}
+                {/*    <main className="grid flex-1 items-start gap-2 p-4 sm:px-6 sm:py-0 md:gap-4 bg-muted/40">*/}
+                {/*        {children}*/}
+                {/*    </main>*/}
+                {/*</div>*/}
                 <Analytics />
             </main>
         </Providers>
