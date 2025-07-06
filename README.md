@@ -108,9 +108,17 @@ Once the application is running, you can log in with the following default crede
 
 The dashboard includes a built-in translation system with support for both LTR and RTL languages. To add a new language:
 
-1. Add the language to the `appLanguages` array in `lib/translations.tsx`
-2. Add translations for the language in the `translations` object
-3. Set the appropriate direction (`ltr` or `rtl`) for the language
+1. Make sure the language is added to the `app_settings` table (where setting_key is app_languages)
+2. Add translations for the language in the `translations` table
+3. Use the following code to set the language in the UI:
+```tsx
+import { useTranslations } from '@/lib/translations';
+const { t } = useTranslations();
+
+const translatedText = t(item.title.toLowerCase());
+console.log(translatedText);
+```
+4. Try to change the language and see the logged output
 
 The UI will automatically adjust for RTL languages, including:
 - Sidebar position switching to the right side
@@ -120,10 +128,8 @@ The UI will automatically adjust for RTL languages, including:
 
 ## Authentication
 
-Authentication is handled via NextAuth.js. The login page includes:
+- Authentication is handled via NextAuth.js.
 - Username/password authentication
-- Language selection
-- Remember me functionality
 - Secure session management
 
 ## Database Integration
