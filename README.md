@@ -4,6 +4,8 @@
 
 ## Overview
 
+https://github.com/user-attachments/assets/b538ec6f-a066-4e06-aa5f-30ce260146c4
+
 This is a comprehensive admin dashboard starter kit using the following stack:
 
 - **Framework** - [Next.js 13+ (App Router)](https://nextjs.org)
