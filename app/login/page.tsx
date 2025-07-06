@@ -36,7 +36,7 @@ export default function LoginPage() {
                 email: values.email,
                 password: values.password,
                 redirect: false,
-                callbackUrl: '/admin/dashboard'
+                callbackUrl: '/dashboard'
             });
 
             if (response?.error) {
@@ -44,7 +44,7 @@ export default function LoginPage() {
                 message.error('Invalid email or password');
             }
             else {
-                router.replace('/admin/dashboard');
+                router.replace('/dashboard');
                 return;
             }
         }
@@ -71,17 +71,23 @@ export default function LoginPage() {
                     {/*</CardDescription>*/}
                 </CardHeader>
                 <CardContent className="mt-4">
-                    <Select
-                        value={language}
-                        onChange={(value) => setLanguage(value)}
-                        className="w-full mb-4"
-                    >
-                        {appLanguages.map((lang) => (
-                            <Select.Option key={lang} value={lang}>
-                                {lang.toUpperCase()}
-                            </Select.Option>
-                        ))}
-                    </Select>
+                    <div className="mb-4">
+                        <label htmlFor="language-select" className="block text-sm font-medium mb-1">
+                            {t('language')}
+                        </label>
+                        <Select
+                            id="language-select"
+                            value={language}
+                            onChange={(value) => setLanguage(value)}
+                            className="w-full"
+                        >
+                            {appLanguages.map((lang) => (
+                                <Select.Option key={lang} value={lang}>
+                                    {lang.toUpperCase()}
+                                </Select.Option>
+                            ))}
+                        </Select>
+                    </div>
                 </CardContent>
                 <CardFooter className="flex-col space-y-4">
                     {/* Display error message */}
@@ -102,8 +108,8 @@ export default function LoginPage() {
                         className="w-full"
                         disabled={loading}
                         initialValues={{
-                            email: 'admin@admin.com',
-                            password: 'password1233'
+                            // email: '',
+                            // password: ''
                         }}
                     >
                         <Form.Item

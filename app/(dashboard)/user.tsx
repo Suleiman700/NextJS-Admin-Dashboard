@@ -10,11 +10,15 @@ import {
     DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
 import Link from 'next/link';
+import { SignOutButton } from '@/components/auth/logout';
 
 export async function User() {
     let session = await auth();
     let user = session?.user;
 
+    const test = async()=> {
+        const appLanguagesResponse = await fetch('/api/auth/signout');
+    };
 
     return (
         <DropdownMenu>
@@ -40,8 +44,11 @@ export async function User() {
                 <DropdownMenuItem>Support</DropdownMenuItem>
                 <DropdownMenuSeparator />
                 {user ?
+                    // <DropdownMenuItem>
+                    //     <Link href="#" onClick={()=> test()}>Sign Out</Link>
+                    // </DropdownMenuItem>
                     <DropdownMenuItem>
-                        <Link href="#">Sign Out</Link>
+                        <SignOutButton />
                     </DropdownMenuItem>
                     :
                     <DropdownMenuItem>
