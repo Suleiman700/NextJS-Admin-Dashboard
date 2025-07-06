@@ -11,7 +11,8 @@ import { useTranslations } from '@/lib/translations';
 
 export function Sidebar() {
     const pathname = usePathname();
-    const { direction } = useTranslations();
+    const { t, setLanguage, language, appLanguages, direction } = useTranslations();
+
     const [openCategories, setOpenCategories] = useState<Record<string, boolean>>({});
 
     const toggleCategory = (category: string) => {
@@ -47,7 +48,7 @@ export function Sidebar() {
                     {sidebarConfig.map((category, index) => (
                         <div key={index} className="mb-6">
                             <h3 className="mb-2 px-4 text-xs font-semibold uppercase tracking-wider text-muted-foreground sticky top-0 bg-background">
-                                {category.title}
+                                {t(category.title.toLowerCase())}
                             </h3>
                             <div className="space-y-1">
                                 {category.items.map((item, itemIndex) => (
@@ -64,7 +65,7 @@ export function Sidebar() {
                                                 >
                                                     <div className="flex items-center gap-3">
                                                         <item.icon className="h-5 w-5" />
-                                                        <span>{item.title}</span>
+                                                        <span>{t(item.title.toLowerCase())}</span>
                                                     </div>
                                                     {openCategories[`${category.title}-${item.title}`] ? (
                                                         <ChevronDown className="h-4 w-4 flex-shrink-0" />
@@ -86,7 +87,7 @@ export function Sidebar() {
                                                                 )}
                                                             >
                                                                 <subItem.icon className="h-4 w-4" />
-                                                                <span>{subItem.title}</span>
+                                                                <span>{t(subItem.title.toLowerCase())}</span>
                                                             </Link>
                                                         ))}
                                                     </div>
@@ -102,7 +103,7 @@ export function Sidebar() {
                                                 )}
                                             >
                                                 <item.icon className="h-5 w-5" />
-                                                <span>{item.title}</span>
+                                                <span>{t(item.title.toLowerCase())}</span>
                                             </Link>
                                         )}
                                     </div>
