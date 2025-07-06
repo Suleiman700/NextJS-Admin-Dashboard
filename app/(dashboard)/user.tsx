@@ -38,21 +38,31 @@ export async function User() {
         <DropdownMenuItem>Settings</DropdownMenuItem>
         <DropdownMenuItem>Support</DropdownMenuItem>
         <DropdownMenuSeparator />
-        {user ? (
-          <DropdownMenuItem>
-            <form
-              action={async () => {
-                await signOut();
-              }}
-            >
-              <button type="submit">Sign Out</button>
-            </form>
-          </DropdownMenuItem>
-        ) : (
-          <DropdownMenuItem>
-            <Link href="/login">Sign In</Link>
-          </DropdownMenuItem>
-        )}
+        {user ?
+            <DropdownMenuItem>
+              <Link onClick={() => signOut()} href="#">Sign Out</Link>
+            </DropdownMenuItem>
+            :
+            <DropdownMenuItem>
+              <Link href="/login">Sign In</Link>
+            </DropdownMenuItem>
+        }
+
+          {/*{user ? (*/}
+          {/*    <DropdownMenuItem>*/}
+          {/*        <form*/}
+          {/*            action={async () => {*/}
+          {/*                await signOut();*/}
+          {/*            }}*/}
+          {/*        >*/}
+          {/*            <button type="submit">Sign Out</button>*/}
+          {/*        </form>*/}
+          {/*    </DropdownMenuItem>*/}
+          {/*) : (*/}
+          {/*    <DropdownMenuItem>*/}
+          {/*        <Link href="/login">Sign In</Link>*/}
+          {/*    </DropdownMenuItem>*/}
+          {/*)}*/}
       </DropdownMenuContent>
     </DropdownMenu>
   );

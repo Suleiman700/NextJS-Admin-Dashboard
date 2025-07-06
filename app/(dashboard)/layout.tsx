@@ -7,7 +7,9 @@ import {
     PanelLeft,
     Settings,
     ShoppingCart,
-    Users2
+    Users2,
+    ChevronDown,
+    ChevronRight
 } from 'lucide-react';
 
 import {
@@ -34,6 +36,7 @@ import { SearchInput } from './search';
 import { LanguageSelector } from './language-selector';
 import { Sidebar } from './sidebar';
 import { sidebarConfig } from './sidebar-config';
+import { MobileNav } from './mobile-nav';
 
 export default function DashboardLayout({
                                             children
@@ -60,74 +63,6 @@ export default function DashboardLayout({
                 <Analytics />
             </main>
         </Providers>
-    );
-}
-
-function MobileNav() {
-    return (
-        <Sheet>
-            <SheetTrigger asChild>
-                <Button size="icon" variant="outline" className="sm:hidden">
-                    <PanelLeft className="h-5 w-5" />
-                    <span className="sr-only">Toggle Menu</span>
-                </Button>
-            </SheetTrigger>
-            <SheetContent side="left" className="sm:max-w-xs overflow-y-auto">
-                <div className="flex items-center mb-6">
-                    <Link
-                        href="/"
-                        className="flex items-center gap-2 font-semibold"
-                    >
-                        <VercelLogo className="h-6 w-6" />
-                        <span className="text-lg">Acme Inc</span>
-                    </Link>
-                </div>
-                
-                <nav className="grid gap-2">
-                    {sidebarConfig.map((category, index) => (
-                        <div key={index} className="mb-4">
-                            <h3 className="mb-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                                {category.title}
-                            </h3>
-                            <div className="space-y-1">
-                                {category.items.map((item, itemIndex) => (
-                                    <div key={itemIndex}>
-                                        {item.submenu ? (
-                                            <>
-                                                <div className="flex items-center gap-3 px-2 py-1.5 text-muted-foreground">
-                                                    <item.icon className="h-5 w-5" />
-                                                    <span className="font-medium">{item.title}</span>
-                                                </div>
-                                                <div className="ml-6 space-y-1">
-                                                    {item.submenu.map((subItem, subIndex) => (
-                                                        <Link
-                                                            key={subIndex}
-                                                            href={subItem.href}
-                                                            className="flex items-center gap-3 rounded-md px-2 py-1.5 text-sm text-muted-foreground hover:text-foreground"
-                                                        >
-                                                            <subItem.icon className="h-4 w-4" />
-                                                            <span>{subItem.title}</span>
-                                                        </Link>
-                                                    ))}
-                                                </div>
-                                            </>
-                                        ) : (
-                                            <Link
-                                                href={item.href || '#'}
-                                                className="flex items-center gap-3 rounded-md px-2 py-1.5 text-muted-foreground hover:text-foreground"
-                                            >
-                                                <item.icon className="h-5 w-5" />
-                                                <span className="font-medium">{item.title}</span>
-                                            </Link>
-                                        )}
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-                    ))}
-                </nav>
-            </SheetContent>
-        </Sheet>
     );
 }
 
