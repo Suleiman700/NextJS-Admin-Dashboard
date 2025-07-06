@@ -4,10 +4,11 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { PanelLeft, ChevronDown, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
+import { Sheet, SheetContent, SheetTrigger, SheetTitle } from '@/components/ui/sheet';
 import { VercelLogo } from '@/components/icons';
 import { sidebarConfig } from '@/components/layout/sidebar-config';
 import { useTranslations } from '@/lib/translations';
+import { VisuallyHidden } from '@/components/ui/visually-hidden';
 
 export function MobileNav() {
     const [openCategories, setOpenCategories] = useState<Record<string, boolean>>({});
@@ -29,6 +30,9 @@ export function MobileNav() {
                 </Button>
             </SheetTrigger>
             <SheetContent side={direction === 'rtl' ? 'right' : 'left'} className="sm:max-w-xs overflow-y-auto">
+                <SheetTitle>
+                    <VisuallyHidden>{t('navigation')}</VisuallyHidden>
+                </SheetTitle>
                 <div className="flex items-center mb-6">
                     <Link href="/" className="flex items-center gap-2">
                         <VercelLogo className="h-6 w-6" />
@@ -45,7 +49,8 @@ export function MobileNav() {
                                 {category.items.map((item, itemIndex) => (
                                     <div key={itemIndex}>
                                         {item.submenu ? (
-                                            <>
+                                            // Item with submenu
+                                            <div className="space-y-1">
                                                 <button
                                                     onClick={() => toggleCategory(`${category.title}-${item.title}`)}
                                                     className="flex w-full items-center justify-between rounded-md px-2 py-1.5 text-muted-foreground hover:text-foreground"
@@ -61,7 +66,7 @@ export function MobileNav() {
                                                     )}
                                                 </button>
                                                 {openCategories[`${category.title}-${item.title}`] && (
-                                                    <div className="ml-6 space-y-1 mt-1">
+                                                    <div className="ml-4 space-y-1 pt-1">
                                                         {item.submenu.map((subItem, subIndex) => (
                                                             <Link
                                                                 key={subIndex}
@@ -74,8 +79,9 @@ export function MobileNav() {
                                                         ))}
                                                     </div>
                                                 )}
-                                            </>
+                                            </div>
                                         ) : (
+                                            // Regular item without submenu
                                             <Link
                                                 href={item.href || '#'}
                                                 className="flex items-center gap-3 rounded-md px-2 py-1.5 text-muted-foreground hover:text-foreground"
