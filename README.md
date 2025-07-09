@@ -9,7 +9,7 @@
 
 <img width="1723" alt="image" src="https://github.com/user-attachments/assets/dc1fd6f7-bfb4-4bf0-9a2e-f5bef5abf41f" />
 
-https://github.com/user-attachments/assets/b538ec6f-a066-4e06-aa5f-30ce260146c4
+https://github.com/user-attachments/assets/a42b7047-f146-4b89-b5f2-80db93f1266e
 
 
 This is a comprehensive admin dashboard starter kit using the following stack:
